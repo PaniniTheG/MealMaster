@@ -3,7 +3,7 @@ class DatabaseConnection
 {
     private $con;
 
-    public function __construct()
+    function __construct()
     {
         $server = 'localhost:3306';
         $user = 'root';
@@ -21,7 +21,7 @@ class DatabaseConnection
         }
     }
 
-    public function checkUser($email, $password)
+    function checkUser($email, $password)
     {
         try
         {
