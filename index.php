@@ -10,7 +10,6 @@
         <div class="bg-body-tertiary p-5 rounded">
             <?php
             include_once('function/function.php');
-            include_once('function/process_form.php');
             getSite('LogIn');
             ?>
         </div>

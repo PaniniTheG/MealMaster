@@ -28,7 +28,13 @@
                         <h2>Hallo</h2>
                         <p>Bitte geben Sie ihre Daten ein</p>
                       </div>
-                      <form method="post">
+                    
+                      <?php
+                        checkUserData();
+                      ?>
+
+                      <!--Login Form-->
+                      <form action="" method="post">
                         <div class="input-group mb-3">
                          <input type="text" name="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email">
                         </div>
@@ -36,9 +42,11 @@
                          <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password">
                         </div>
                         <div class="input-group mb-3">
-                         <button class="btn btn-lg btn-primary w-100 fs-6">Login</button>
+                         <button class="btn btn-lg btn-primary w-100 fs-6" name="login">Login</button>
                         </div>
                       </form>
+                      <!--Login Form End-->
+
                       <div class="row">
                         <small>Noch keinen Account? <a href="#">Registrieren</a></small>
                       </div>
