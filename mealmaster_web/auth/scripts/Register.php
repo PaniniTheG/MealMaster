@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Logging Page</title>
+  <title>Register Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link href="mealmaster_web/auth/style/LogIn.css" rel="stylesheet">
+  <link href="mealmaster_web/auth/style/Register.css" rel="stylesheet">
 </head>
 
 <body>
@@ -28,36 +28,49 @@
                         <h2>Hallo</h2>
                         <p>Bitte geben Sie ihre Daten ein</p>
                       </div>
-                    
+
                       <?php
-                        checkUserData();
+                        registerNewUser();
                       ?>
 
-                      <!--Login Form-->
+                      <!--Register Form-->
                       <form action="" method="post">
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-1">
+                         <input type="text" name="firstName" class="form-control form-control-lg bg-light fs-6" placeholder="Vorname" required>
+                        </div>
+                        <div class="input-group mb-1">
+                         <input type="text" name="lastName" class="form-control form-control-lg bg-light fs-6" placeholder="Nachname" required>
+                        </div>
+                        <div class="input-group mb-1">
+                         <input type="text" name="class" class="form-control form-control-lg bg-light fs-6" placeholder="Klasse" required>
+                        </div>
+                        <div class="input-group mb-1">
                          <input type="text" name="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email" required>
                         </div>
                         <div class="input-group mb-1">
                          <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Passwort" required>
                         </div>
-                        <div class="input-group mb-2 d-flex justify-content-between">
-                          <div class="forgot">
-                            <small><a href="#" id="forgotPasswordLink">Passwort vergessen?</a></small>
-                          </div>
+                        <div class="input-group mb-3">
+                         <input type="password" name="repeadPassword" class="form-control form-control-lg bg-light fs-6" placeholder="Passwort wiederholen" required>
                         </div>
                         <div class="input-group mb-3">
-                         <button class="btn btn-lg btn-primary w-100 fs-6" name="login">Login</button>
+                         <button class="btn btn-lg btn-primary w-100 fs-6" name="register">Registrieren</button>
                         </div>
                       </form>
-                      <!--Login Form End-->
+                      <!--Register Form End-->
 
                       <div class="row">
-                        <small>Noch keinen Account? <a href="index.php?site=Register">Registrieren</a></small>
+                        <small>Bereits einen Account? <a href="index.php?site=LogIn">Anmelden</a></small>
                       </div>
                 </div>
                 <!--Right side end-->
             </div>
         </div>
+
 </body>
+ <!--https://www.youtube.com/watch?v=oF28ns9eVdc tut fertig, 
+  nächste schritte:
+    -Datenbank verbindung erstellen einbinden
+    -registrieren seite einbinden
+-->
 </html>

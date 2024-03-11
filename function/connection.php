@@ -8,7 +8,7 @@ class DatabaseConnection
         $server = 'localhost:3306';
         $user = 'root';
         $pwd = 'root';
-        $schema = 'pptest';
+        $schema = 'mealmaster';
 
         try
         {
@@ -25,7 +25,7 @@ class DatabaseConnection
     {
         try
         {
-            $stmt = $this->con->prepare("SELECT COUNT(*) FROM login WHERE email = :email");
+            $stmt = $this->con->prepare("SELECT COUNT(*) FROM Benutzer WHERE mail = :email");
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -33,7 +33,7 @@ class DatabaseConnection
 
             $stmt=null;
 
-            $stmt = $this->con->prepare("SELECT COUNT(*) FROM login WHERE password = :password");
+            $stmt = $this->con->prepare("SELECT COUNT(*) FROM Benutzer WHERE passwort = :password");
             $stmt->bindParam(':password', $password, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -43,18 +43,66 @@ class DatabaseConnection
         }
         catch(Exception $e)
         {
-            echo 'Fehler beim Überprüfen des Benutzernamens: '.$e->getMessage();
+            return false;
+        }
+    }
+
+    function checkIfUserAlreadyExists($email){
+        try
+        {
+            $stmt = $this->con->prepare("SELECT COUNT(*) FROM Benutzer WHERE mail = :email");
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $checkEmail = $stmt->fetchColumn();
+
+            return ($checkEmail > 0);
+        }
+        catch(Exception $e)
+        {
+            return false;
+        }
+    }
+
+    function createNewUser($firstName, $lastName, $class, $email, $password){
+        try
+        {
+            if($this->checkIfUserAlreadyExists($email)){
+                if($this->isAccepted($email,$password)){
+                    return false;
+                }
+                return true;
+            }
+            else{
+                $stmt = $this->con->prepare("Insert into Benutzer(Rolle_idRolle, mail, passwort, vname, nname, class) values (3, :email , :password, :firstName, :lastName, :class)");
+                $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+                $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+                $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+                $stmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+                $stmt->bindParam(':class', $class, PDO::PARAM_STR);
+                $stmt->execute();
+            }
+            return true;
+        }
+        catch(Exception $e)
+        {
+        return false;
+        }
+    }
+
+    function isAccepted($email, $password){
+        try
+        {
+            $stmt = $this->con->prepare("select Count(*) from Benutzer where mail=:email and Rolle_idRolle=3;");
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
+            $isAccepted=$stmt->fetchColumn();
+            return ($isAccepted <= 0);
+        }
+        catch(Exception $e)
+        {
             return false;
         }
     }
 }
-
-/*$db = new DatabaseConnection($server, $user, $pwd, $schema);
-
-$email = 'johannesderhuan@gmail.com';
-if ($db->checkUser($email, 'haha13')) {
-    echo "accepted";
-} else {
-    echo "not accepted";
-}*/
 ?>
