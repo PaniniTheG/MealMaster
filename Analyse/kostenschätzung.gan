@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Test" company="" webLink="http://" view-date="2024-02-04" view-index="0" gantt-divider-location="1020" resource-divider-location="300" version="3.3.3305" locale="de_DE">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd12" name="Kosten" width="83" order="0"/>
+        <field id="tpd13" name="Ressourcen" width="157" order="1"/>
+        <field id="tpd6" name="Dauer" width="61" order="2"/>
+        <field id="tpd7" name="Fortschritt" width="54" order="3"/>
+        <field id="tpd9" name="Vorgänger" width="236" order="4"/>
+        <field id="tpd3" name="Vorgang" width="236" order="5"/>
+        <field id="tpd4" name="Anfang" width="88" order="6"/>
+        <field id="tpd5" name="Ende" width="89" order="7"/>
+        <field id="tpd15" name="Notizen" width="20" order="8"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="filter.dueTodayTasks" value="false"/>
+        <option id="filter.overdueTasks" value="false"/>
+        <option id="filter.inProgressTodayTasks" value="false"/>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Ressource" width="210" order="0"/>
+        <field id="1" name="Rolle" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars base-id="none">
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="1" wed="1" thu="1" fri="1" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+        <date year="2024" month="2" date="19" type="HOLIDAY"/>
+        <date year="2024" month="4" date="1" type="HOLIDAY"/>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" uid="80f166ef93da45e0b5f10f7d63e5480c" name="Projektstart" meeting="true" start="2024-03-11" duration="0" complete="0" expand="true"/>
+        <task id="14" uid="7eed744abea44291888dd844bb4e7a27" name="Laufende Aufgaben" meeting="false" start="2024-02-05" duration="9" complete="0" expand="true">
+            <task id="9" uid="46da89deb89c44558360c2e54464391c" name="Protokoll" meeting="false" start="2024-02-05" duration="8" complete="0" expand="true"/>
+            <task id="8" uid="7ac4062f66254622a5e27e37c6733f98" name="Dokumentation" meeting="false" start="2024-02-05" duration="9" complete="0" expand="true"/>
+        </task>
+        <task id="36" uid="48b8ba58efd4437796cd7058fd1fed8a" name="Projektmanagement/ Personalverplanung" meeting="false" start="2024-02-05" duration="9" complete="0" expand="true"/>
+        <task id="13" uid="b5bbfe2f621f4326a5d9eba8f11e0c3a" name="Intielles einrichten" meeting="false" start="2024-02-05" duration="2" complete="0" expand="true">
+            <task id="11" uid="b636e1f0eb3c47cf921b830bb744c68c" name="Github einrichten" meeting="false" start="2024-02-05" duration="2" complete="0" expand="true"/>
+            <task id="10" uid="c74c6839fd444821aa10ba18df6d6857" name="Jira einrichten" meeting="false" start="2024-02-05" duration="2" complete="0" expand="true"/>
+        </task>
+        <task id="15" uid="1f18d292ec914eceae47ab90a3066bda" name="Login Page" meeting="false" start="2024-02-26" duration="1" complete="0" expand="true">
+            <task id="16" uid="bc492a58d301421295a74b0894beada8" name="Frontend" meeting="false" start="2024-02-26" duration="1" complete="0" expand="true" cost-manual-value="200.0" cost-calculated="false"/>
+            <task id="17" uid="fcc251d2f7bb4ec6b76bb7813d75af71" name="Backend" meeting="false" start="2024-02-26" duration="1" complete="0" expand="true"/>
+            <task id="18" uid="8ed7f7f5b33648eb8683c8cd4a60eaa1" name="Dokumentation" meeting="false" start="2024-02-26" duration="1" complete="0" expand="true"/>
+        </task>
+        <task id="19" uid="1c37660542a24a03a4d7027213632b05" name="Regestrierungs-Page" meeting="false" start="2024-03-04" duration="1" complete="0" expand="true">
+            <task id="20" uid="96e3576e9d5e451f9912f176183b02f6" name="Frontend" meeting="false" start="2024-03-04" duration="1" complete="0" expand="true"/>
+            <task id="21" uid="182cf5c87be74decbe29e621e91d05ea" name="Backend" meeting="false" start="2024-03-04" duration="1" complete="0" expand="true"/>
+            <task id="22" uid="e57d48c893f640d280e756b073dd7317" name="Dokumentation" meeting="false" start="2024-03-04" duration="1" complete="0" expand="true"/>
+        </task>
+        <task id="24" uid="e004c34f337648929aafd34953e7ac4c" name="Schueler-Page" meeting="false" start="2024-02-26" duration="3" complete="0" expand="true">
+            <task id="26" uid="aeb6b51555d64aecb5230ee9d362ab3e" name="Frontend" meeting="false" start="2024-02-26" duration="3" complete="0" expand="true"/>
+            <task id="27" uid="08ed9aa4a16642e9862934e404bb60b8" name="Backend" meeting="false" start="2024-02-26" duration="3" complete="0" expand="true"/>
+            <task id="28" uid="94566f3474044d3382c4251c07e67539" name="Dokumentation" meeting="false" start="2024-02-26" duration="3" complete="0" expand="true"/>
+        </task>
+        <task id="25" uid="af33a6784beb4cc2a005b916b4279d57" name="Admin-Page" meeting="false" start="2024-03-18" duration="3" complete="0" expand="true">
+            <task id="29" uid="8d0f60269ddb48b699a21f78a285a116" name="Frontend" meeting="false" start="2024-03-18" duration="3" complete="0" expand="true"/>
+            <task id="30" uid="0e7704dd9c774a85afbe71feb78c37da" name="Backend" meeting="false" start="2024-03-18" duration="3" complete="0" expand="true"/>
+            <task id="31" uid="38a9cd2136084b04b91d2077883c2056" name="Dokumentation" meeting="false" start="2024-03-18" duration="3" complete="0" expand="true"/>
+        </task>
+        <task id="32" uid="2540fca08e29423a8ed664e3bc18abc9" name="Organisatiorisches" meeting="false" start="2024-02-05" duration="10" complete="0" expand="true">
+            <task id="33" uid="88ba44c2bf6846efbc22ca49fd3f1102" name="Pflichtenheft/Protokolle" meeting="false" start="2024-02-05" duration="8" complete="0" expand="true"/>
+            <task id="34" uid="285827e1bb8b41f08db2f2925207a08c" name="Daily Meetings" meeting="false" start="2024-02-05" duration="10" complete="0" expand="true"/>
+            <task id="35" uid="ff07ca278af948d390d7fd7ad49cd569" name="Mindmap/Grant" meeting="false" start="2024-02-05" duration="4" complete="0" expand="true"/>
+        </task>
+        <task id="7" uid="a027938af8db42529a9710e6b6873019" name="Projektende" meeting="true" start="2024-04-29" duration="0" complete="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="Johannes Walter" function="Default:0" contacts="" phone="">
+            <rate name="standard" value="400"/>
+        </resource>
+        <resource id="1" name="Kevin Alonso" function="Default:0" contacts="" phone="">
+            <rate name="standard" value="500"/>
+        </resource>
+        <resource id="2" name="Simon Hochhauser" function="Default:0" contacts="" phone="">
+            <rate name="standard" value="800"/>
+        </resource>
+        <resource id="3" name="Abfalter Raphael" function="Default:0" contacts="" phone="">
+            <rate name="standard" value="500"/>
+        </resource>
+    </resources>
+    <allocations>
+        <allocation task-id="9" resource-id="0" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="8" resource-id="0" function="Default:0" responsible="true" load="20.0"/>
+        <allocation task-id="18" resource-id="0" function="Default:0" responsible="true" load="15.0"/>
+        <allocation task-id="22" resource-id="0" function="Default:0" responsible="true" load="15.0"/>
+        <allocation task-id="28" resource-id="0" function="Default:0" responsible="true" load="15.0"/>
+        <allocation task-id="31" resource-id="0" function="Default:0" responsible="true" load="15.0"/>
+        <allocation task-id="33" resource-id="0" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="26" resource-id="1" function="Default:0" responsible="true" load="30.0"/>
+        <allocation task-id="27" resource-id="1" function="Default:0" responsible="true" load="70.0"/>
+        <allocation task-id="29" resource-id="1" function="Default:0" responsible="true" load="30.0"/>
+        <allocation task-id="30" resource-id="1" function="Default:0" responsible="true" load="70.0"/>
+        <allocation task-id="11" resource-id="2" function="Default:0" responsible="true" load="0.0"/>
+        <allocation task-id="11" resource-id="2" function="Default:1" responsible="true" load="10.0"/>
+        <allocation task-id="10" resource-id="2" function="Default:1" responsible="true" load="10.0"/>
+        <allocation task-id="34" resource-id="2" function="Default:0" responsible="true" load="5.0"/>
+        <allocation task-id="35" resource-id="2" function="Default:0" responsible="true" load="5.0"/>
+        <allocation task-id="36" resource-id="2" function="Default:1" responsible="true" load="80.0"/>
+        <allocation task-id="16" resource-id="3" function="Default:1" responsible="true" load="70.0"/>
+        <allocation task-id="17" resource-id="3" function="Default:0" responsible="true" load="30.0"/>
+        <allocation task-id="20" resource-id="3" function="Default:0" responsible="true" load="70.0"/>
+        <allocation task-id="21" resource-id="3" function="Default:0" responsible="true" load="30.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
