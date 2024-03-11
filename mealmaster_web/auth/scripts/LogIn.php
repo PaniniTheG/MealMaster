@@ -14,7 +14,7 @@
                 <!--Left side-->
                 <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #f0e79c">
                     <div class="featured-image mb-3">
-                        <img src="mealmaster_web/images/Firmenlogo.png" class="img-fluid" style="width: 250px;">
+                        <img src="mealmaster_web/images/Firmenlogo.png" class="img-fluid" style="max-width: 100%; height: auto;">
                     </div>
                     <p class="fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Jetzt anschauen</p>
                     <small class="text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Erhalten Sie einen Überblick über den Speiseplan</small>
