@@ -82,13 +82,6 @@
 
   <!-- POP-UP Space Ende -->
 
-  <!-- Notification Space -->
-  <div id="notification">
-    Erfolgreich gesendet
-    <div class="close-btn-notification" onclick="closeNotification()">X</div>
-  </div>
-  <!-- Notification Space -->
-
 <div id="overlay" onclick="closePopup()"></div>
 
   
@@ -111,18 +104,9 @@
     document.getElementById('resetForm').addEventListener('submit', function(event) {
       var email = document.getElementById('ResetPwEmail').value;
       if (email !== '') {
-       showNotification();
        closePopup();
       }
     });
-
-    function showNotification() {
-     document.getElementById('notification').style.display = 'block';
-    }
-
-   function closeNotification() {
-     document.getElementById('notification').style.display = 'none';
-    }
   </script>
 
 </body>

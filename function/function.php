@@ -36,7 +36,7 @@ function registerNewUser(){
         $class=$_POST['class'];
         $email=$_POST['email'];
         $password=$_POST['password'];
-        $repeadPassword=$_POST['repeadPassword'];
+        $repeadPassword=$_POST['repeatPassword'];
 
         $db = new DatabaseConnection();
 

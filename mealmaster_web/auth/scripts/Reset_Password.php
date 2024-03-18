@@ -32,12 +32,12 @@
                         resetPassword();
                       ?>
                       <!--Reset Form-->
-                      <form action="" method="post">
+                      <form action="" method="post" onsubmit="return validateForm()">
                         <div class="input-group mb-1">
                           <input type="number" name="pin" class="form-control form-control-lg bg-light fs-6" placeholder="PIN" required>
                         </div>
                         <div class="input-group mb-1">
-                         <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Passwort" required>
+                         <input type="password" id="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Passwort" required>
                         </div>
                         <div class="input-group mb-3">
                          <input type="password" name="repeadPassword" class="form-control form-control-lg bg-light fs-6" placeholder="Passwort wiederholen" required>
@@ -51,5 +51,50 @@
                 <!--Right side end-->
             </div>
         </div>
+
+
+<!-- POP-UP Space -->
+<div id="popup">
+    <button class="close-btn" onclick="closePopup()">X</button>
+    <!-- POP-UP Inhalt Start -->
+      <div class="row align-items-center">
+        <form action="" id="resetForm" method="post">
+          <p>Das Passwort muss mindestens 6 Zeichen lang sein, Groß- und Kleinschreibung enthalten, mindestens eine Zahl und ein Sonderzeichen haben.</p>
+        </form>
+      </div>
+    <!-- POP-UP Inhalt Ende -->
+  </div>
+
+  <!-- POP-UP Space Ende -->
+
+<div id="overlay" onclick="closePopup()"></div>
+  
+  <script>
+    function showPopup() {
+      document.getElementById('popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+      document.querySelector('.close-btn').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+      document.querySelector('.close-btn').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function validateForm() {
+    var password = document.getElementById("password").value;
+    var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
+    if (!passwordPattern.test(password)) {
+      showPopup();
+      return false;
+    }
+    return true;
+  }
+  </script>
+
 </body>
 </html>

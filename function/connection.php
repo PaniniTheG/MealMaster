@@ -23,6 +23,7 @@ class DatabaseConnection
 
     function checkUser($email, $password)
     {
+        $hashedPassword = $this->hash_password($password);
         try
         {
             $stmt = $this->con->prepare("SELECT COUNT(*) FROM Benutzer WHERE mail = :email");
@@ -34,7 +35,7 @@ class DatabaseConnection
             $stmt=null;
 
             $stmt = $this->con->prepare("SELECT COUNT(*) FROM Benutzer WHERE passwort = :password");
-            $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+            $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
             $stmt->execute();
 
             $checkPassword = $stmt->fetchColumn();
@@ -66,27 +67,28 @@ class DatabaseConnection
 
     function createNewUser($firstName, $lastName, $class, $email, $password){
         $randomBytes = random_bytes(64);
-
         $token = bin2hex($randomBytes);
-
         $sha256Token = hash('sha256', $token);
+
+        $hashedPassword = $this->hash_password($password);
         
         try
         {
             if($this->checkIfUserAlreadyExists($email)){
-                if($this->isAccepted($email,$password)){
+                if($this->isAccepted($email,$hashedPassword)){
                     return false;
                 }
                 return true;
             }
             else{
 
-                $stmt = $this->con->prepare("Insert into Benutzer(rolle_idrolle, mail, passwort, vname, nname, class, pin) values (3, :email , :password, :firstName, :lastName, :class, $token)");
+                $stmt = $this->con->prepare("Insert into Benutzer(rolle_idrolle, mail, passwort, vname, nname, class, pin) values (3, :email , :password, :firstName, :lastName, :class, :pin)");
                 $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-                $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+                $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
                 $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
                 $stmt->bindParam(':lastName', $lastName, PDO::PARAM_STR);
                 $stmt->bindParam(':class', $class, PDO::PARAM_STR);
+                $stmt->bindParam(':pin', $sha256Token, PDO::PARAM_STR);
                 $stmt->execute();
             }
             return true;
@@ -113,9 +115,6 @@ class DatabaseConnection
     }
 
     function sendResetRequest($email, $pin){
-        
-        global $resetMail;
-        $resetMail=$email;
 
         date_default_timezone_set('Europe/Berlin');
 
@@ -176,15 +175,24 @@ class DatabaseConnection
     function updatePassword($password, $pin){        
         try
         {
+            $hashedPassword = $this->hash_password($password);
+
             $stmt = $this->con->prepare("UPDATE Benutzer set passwort=:newPW where pin=:pin");
             $stmt->bindParam(':pin', $pin, PDO::PARAM_STR);
-            $stmt->bindParam(':newPW', $password, PDO::PARAM_STR);
+            $stmt->bindParam(':newPW', $hashedPassword, PDO::PARAM_STR);
             $stmt->execute();
         }
         catch(Exception $e)
         {
             //TODO
         }
+    }
+
+    function hash_password($pw){
+        $hashedPassword = hash('sha256', trim($pw));
+
+        return $hashedPassword;
+
     }
 }
 
