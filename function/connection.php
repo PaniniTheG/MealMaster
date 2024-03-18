@@ -65,6 +65,12 @@ class DatabaseConnection
     }
 
     function createNewUser($firstName, $lastName, $class, $email, $password){
+        $randomBytes = random_bytes(64);
+
+        $token = bin2hex($randomBytes);
+
+        $sha256Token = hash('sha256', $token);
+        
         try
         {
             if($this->checkIfUserAlreadyExists($email)){
@@ -74,7 +80,8 @@ class DatabaseConnection
                 return true;
             }
             else{
-                $stmt = $this->con->prepare("Insert into Benutzer(ben_id, mail, passwort, vname, nname, class) values (3, :email , :password, :firstName, :lastName, :class)");
+
+                $stmt = $this->con->prepare("Insert into Benutzer(rolle_idrolle, mail, passwort, vname, nname, class, pin) values (3, :email , :password, :firstName, :lastName, :class, $token)");
                 $stmt->bindParam(':email', $email, PDO::PARAM_STR);
                 $stmt->bindParam(':password', $password, PDO::PARAM_STR);
                 $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
@@ -105,11 +112,11 @@ class DatabaseConnection
         }
     }
 
-    function sendResetRequest($email){
+    function sendResetRequest($email, $pin){
         
-        $token= bin2hex(random_bytes(16));
-        $token_hash = hash("sha256", $token);
-        
+        global $resetMail;
+        $resetMail=$email;
+
         date_default_timezone_set('Europe/Berlin');
 
         $expireDate = date("Y-m-d H:i:s", strtotime("+30 minutes"));
@@ -119,8 +126,8 @@ class DatabaseConnection
             $stmt->execute();
             $id = $stmt->fetchColumn();
 
-            $stmt = $this->con->prepare("UPDATE Benutzer SET passwort_token = :token, ablauf_datum_token= :expireDate WHERE mail= :email and ben_id= :id");
-            $stmt->bindParam(':token', $token_hash, PDO::PARAM_STR);
+            $stmt = $this->con->prepare("UPDATE Benutzer SET pin = :pin, ablauf_datum_pin= :expireDate WHERE mail= :email and ben_id= :id");
+            $stmt->bindParam(':pin', $pin, PDO::PARAM_STR);
             $stmt->bindParam(':expireDate', $expireDate, PDO::PARAM_STR);
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt->bindParam(':id', $id, PDO::PARAM_STR);
@@ -135,5 +142,50 @@ class DatabaseConnection
             return false;
         }
     }
+
+    function checkPin($pin){
+        try
+        {
+            $stmt = $this->con->prepare("SELECT COUNT(*) FROM Benutzer WHERE pin = :pin");
+            $stmt->bindParam(':pin', $pin, PDO::PARAM_STR);
+            $stmt->execute();
+    
+            $checkToken = $stmt->fetchColumn();
+    
+            $stmt = $this->con->prepare("SELECT ablauf_datum_pin FROM Benutzer WHERE pin = :pin");
+            $stmt->bindParam(':pin', $pin, PDO::PARAM_STR);
+            $stmt->execute();
+    
+            $ablauf_datum_token = $stmt->fetchColumn();
+
+            date_default_timezone_set('Europe/Berlin');
+
+            $currentDateTime = date("Y-m-d H:i:s");
+
+            $resetDateTime= date($ablauf_datum_token);
+    
+            return ($checkToken > 0) && ($resetDateTime > $currentDateTime);
+        }
+        catch(Exception $e)
+        {
+            return false;
+        }
+    }
+
+
+    function updatePassword($password, $pin){        
+        try
+        {
+            $stmt = $this->con->prepare("UPDATE Benutzer set passwort=:newPW where pin=:pin");
+            $stmt->bindParam(':pin', $pin, PDO::PARAM_STR);
+            $stmt->bindParam(':newPW', $password, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        catch(Exception $e)
+        {
+            //TODO
+        }
+    }
 }
+
 ?>

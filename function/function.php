@@ -65,6 +65,58 @@ function sendResetRequest(){
 
         $db = new DatabaseConnection();
 
-        $db->sendResetRequest($email);
+        if($db->checkIfUserAlreadyExists($email)){
+            global $pin;
+
+            $pin = rand(100000, 999999);
+            $db->sendResetRequest($email, $pin);
+        }
+
+        $subject = "My subject";
+        $txt = "Sehr geehrter Nutzer,
+
+Wir haben eine Anfrage zum Zurücksetzen Ihres Passworts erhalten. Sie wurden in Ihrem Web-Browser weitergeleitet. Bitte geben Sie den unten stehenden PIN ein!
+
+PIN: $pin
+
+Wenn Sie diese Anfrage nicht gestellt haben, können Sie diese E-Mail ignorieren. Ihr Konto bleibt weiterhin sicher.
+
+Wenn Sie weitere Hilfe benötigen oder Fragen haben, zögern Sie bitte nicht, uns zu kontaktieren.
+
+Mit freundlichen Grüßen,
+Das Support-Team";
+
+        $headers = "From: MealMasterSupport@noreply.com";
+ 
+        mail($email,$subject,$txt,$headers);
+
+        echo '<script>window.location.href = "index.php?site=Reset_Password";</script>';
+
+    }
+}
+
+function resetPassword(){
+    if(isset($_POST['reset'])){
+
+        $password=$_POST['password'];
+        $repeadPassword=$_POST['repeadPassword'];
+        $pin=$_POST['pin'];
+
+        if($password==$repeadPassword){
+            confirmResetPassword($password, $pin);
+            echo '<script>window.location.href = "index.php?site=LogIn";</script>';
+        }
+        else{
+            echo '<p style="color:red;font-size:12px"><b>Passwörter stimmen nicht überein!</b></p>';
+        }
+    }
+}
+
+function confirmResetPassword($password, $pin){
+    $db = new DatabaseConnection();
+
+    if($db->checkPin($pin))
+    {
+        $db->updatePassword($password, $pin);
     }
 }
