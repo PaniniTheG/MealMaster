@@ -8,7 +8,7 @@ class DatabaseConnection
         $server = 'localhost:3306';
         $user = 'root';
         $pwd = 'root';
-        $schema = 'mealmaster';
+        $schema = 'MealMasterV2';
 
         try
         {
@@ -74,7 +74,7 @@ class DatabaseConnection
                 return true;
             }
             else{
-                $stmt = $this->con->prepare("Insert into Benutzer(Rolle_idRolle, mail, passwort, vname, nname, class) values (3, :email , :password, :firstName, :lastName, :class)");
+                $stmt = $this->con->prepare("Insert into Benutzer(ben_id, mail, passwort, vname, nname, class) values (3, :email , :password, :firstName, :lastName, :class)");
                 $stmt->bindParam(':email', $email, PDO::PARAM_STR);
                 $stmt->bindParam(':password', $password, PDO::PARAM_STR);
                 $stmt->bindParam(':firstName', $firstName, PDO::PARAM_STR);
@@ -101,6 +101,37 @@ class DatabaseConnection
         }
         catch(Exception $e)
         {
+            return false;
+        }
+    }
+
+    function sendResetRequest($email){
+        
+        $token= bin2hex(random_bytes(16));
+        $token_hash = hash("sha256", $token);
+        
+        date_default_timezone_set('Europe/Berlin');
+
+        $expireDate = date("Y-m-d H:i:s", strtotime("+30 minutes"));
+        try{
+            $stmt = $this->con->prepare("SELECT ben_id FROM benutzer WHERE mail = :email limit 1");
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
+            $id = $stmt->fetchColumn();
+
+            $stmt = $this->con->prepare("UPDATE Benutzer SET passwort_token = :token, ablauf_datum_token= :expireDate WHERE mail= :email and ben_id= :id");
+            $stmt->bindParam(':token', $token_hash, PDO::PARAM_STR);
+            $stmt->bindParam(':expireDate', $expireDate, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return true;
+
+
+        }
+        catch(Exception $e){
             return false;
         }
     }

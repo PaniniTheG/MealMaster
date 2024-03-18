@@ -14,7 +14,7 @@
                 <!--Left side-->
                 <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #f0e79c">
                     <div class="featured-image mb-3">
-                        <img src="mealmaster_web/images/Firmenlogo.png" class="img-fluid" style="width: 250px;">
+                        <img src="mealmaster_web/images/Firmenlogo.png" class="img-fluid" style="max-width: 250px; height: auto;">
                     </div>
                     <p class="fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Jetzt anschauen</p>
                     <small class="text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Erhalten Sie einen Überblick über den Speiseplan</small>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="input-group mb-2 d-flex justify-content-between">
                           <div class="forgot">
-                            <small><a href="#" id="forgotPasswordLink">Passwort vergessen?</a></small>
+                            <small><a href="#" id="forgotPasswordLink" onclick="showPopup()">Passwort vergessen?</a></small>
                           </div>
                         </div>
                         <div class="input-group mb-3">
@@ -59,5 +59,71 @@
                 <!--Right side end-->
             </div>
         </div>
+<!-- POP-UP Space -->
+  <div id="popup">
+    <button class="close-btn" onclick="closePopup()">X</button>
+    <!-- POP-UP Inhalt Start -->
+      <div class="row align-items-center">
+        <?php
+          sendResetRequest();
+        ?>
+        <form action="" id="resetForm" method="post">
+          <p>Bitte Email, zum zurücksetzen des Passworts, eingeben!</p>
+          <div class="input-group mb-3">
+            <input type="text" id="ResetPwEmail" name="ResetPwEmail" class="form-control form-control-lg bg-light fs-6" placeholder="Email" required>
+          </div>
+          <div class="input-group mb-3">
+            <button class="btn btn-lg btn-primary w-100 fs-6" name="send">Senden</button>
+          </div>
+        </form>
+      </div>
+    <!-- POP-UP Inhalt Ende -->
+  </div>
+
+  <!-- POP-UP Space Ende -->
+
+  <!-- Notification Space -->
+  <div id="notification">
+    Erfolgreich gesendet
+    <div class="close-btn-notification" onclick="closeNotification()">X</div>
+  </div>
+  <!-- Notification Space -->
+
+<div id="overlay" onclick="closePopup()"></div>
+
+  
+  
+  <script>
+    function showPopup() {
+      document.getElementById('popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+      document.querySelector('.close-btn').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+      document.querySelector('.close-btn').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    document.getElementById('resetForm').addEventListener('submit', function(event) {
+      var email = document.getElementById('ResetPwEmail').value;
+      if (email !== '') {
+       showNotification();
+       closePopup();
+      }
+    });
+
+    function showNotification() {
+     document.getElementById('notification').style.display = 'block';
+    }
+
+   function closeNotification() {
+     document.getElementById('notification').style.display = 'none';
+    }
+  </script>
+
 </body>
 </html>

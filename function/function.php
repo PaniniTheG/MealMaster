@@ -58,3 +58,13 @@ function registerNewUser(){
         }
     }
 }
+
+function sendResetRequest(){
+    if(isset($_POST['send'])){
+        $email=$_POST['ResetPwEmail'];
+
+        $db = new DatabaseConnection();
+
+        $db->sendResetRequest($email);
+    }
+}
