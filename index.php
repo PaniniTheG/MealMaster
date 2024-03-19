@@ -10,7 +10,7 @@
         <div class="bg-body-tertiary p-5 rounded">
             <?php
             include_once('function/function.php');
-            getSite('LogIn');
+            getSite('admin');
             ?>
         </div>
         </main>
