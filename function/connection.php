@@ -194,6 +194,20 @@ class DatabaseConnection
         return $hashedPassword;
 
     }
+
+    function insertNewGericht($gericht)
+    {
+        // if (isset($_POST["submit"])) 
+        // {
+
+        //     $gericht = $_POST["neuspeisen"]; 
+
+            $stmt = $this->con->prepare("INSERT INTO gericht VALUES('$gericht')");
+            $stmt->execute(["gericht" => $gericht]); 
+            //header('Location: index.php');
+
+        }
+
 }
 
 ?>

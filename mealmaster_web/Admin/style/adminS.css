@@ -1,6 +1,15 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #ececec;
+}
+
+.no-select
+{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
 .sidebar {
@@ -23,17 +32,19 @@ body {
     position: relative;
 }
 
-.hinzufuegen-button {
+/*.hinzufuegen-button {
     position: absolute;
     top: 5px;
-    right: 5px;
-    background-color: transparent;
-    color: #007bff;
-    border: none;
-    padding: 0;
+    right: 1px;
+    background-color: #f0e79c;
+    color: #0056b3;
+    border: 100%;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-right: 5px;
     border-radius: 0;
     cursor: pointer;
-}
+}*/
 
 .hinzufuegen-button:hover {
     color: #0056b3;
@@ -46,6 +57,7 @@ body {
     background-color: #f9f9f9;
     border-radius: 10px;
     position: relative;
+    margin-bottom: 5px;
 }
 
 .placeholder-text {
@@ -94,6 +106,17 @@ body {
     border-radius: 10px;
 }
 
+.woTag
+{
+    text-align: center;
+    transform: translateY(-50%);
+}
+
+.essnneu
+{
+    width: 90%;
+    margin-top: 5px;
+}
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;
