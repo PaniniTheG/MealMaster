@@ -1,0 +1,156 @@
+body {
+    background-color: #ececec;
+}
+
+.box-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background-color: white;
+    padding: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.box-container h1 {
+    text-align: center;
+    margin-top: 0;
+}
+
+#edit {
+    background-color: #f2f2f2;
+    color: #666666;
+}
+
+/* Dropdown-Styles */
+.dropdown {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 20px; /* Just for spacing */
+}
+
+.dropdown-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-header::after {
+    content: '\25BC'; /* Pfeil nach unten */
+    font-size: 12px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    padding: 10px;
+}
+
+/* Adjust width and height of input fields and buttons */
+.dropdown-content input[type="text"]
+{
+    width: 40%; /* Adjust width */
+    margin: 5px auto; /* Center horizontally */
+    display: block;
+    padding: 8px; /* Adjust padding */
+    font-size: 14px; /* Adjust font size */
+    border-radius: 100px;
+}
+.dropdown-content button {
+    width: 10%; /* Adjust width */
+    margin: 5px auto; /* Center horizontally */
+    display: block;
+    padding: 8px; /* Adjust padding */
+    font-size: 14px; /* Adjust font size */
+    border-radius: 100px;
+    background-color: #e6d97a;
+    border-color: #b8b14e;
+}
+
+/* Center buttons */
+.dropdown-content button {
+    text-align: center;
+}
+
+/* Zeigen des Dropdown-Inhalts beim Klicken auf den Header */
+.dropdown.active .dropdown-content {
+    display: block;
+}
+
+.dropdown-content.edit-mode input {
+    background-color: initial;
+    color: initial;
+}
+
+/* Remaining CSS for dropdown buttons */
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px; /* Adjust as needed */
+    width: 100%; /* Adjust width */
+}
+
+/* Center buttons in edit mode */
+.buttons-container.edit-mode button {
+    margin: 0; /* Reset margin */
+}
+
+/* Make sure buttons are always at the same position */
+.buttons-container button {
+    width: 45%; /* Adjust as needed */
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+input {
+    background-color: #f2f2f2;
+    color: #666666;
+}
+
+/* Button-Farben beim Drüberhovern, wenn aktiviert */
+#saveButton:not([disabled]):hover {
+    background-color: #d6c66a;
+    border-color: #b8b14e;
+}
+
+/* Button-Farben beim Klicken, wenn aktiviert */
+#saveButton:not([disabled]):active {
+    background-color: #eb930b !important;
+    border-color: #b57109 !important;
+}
+
+/* Button-Farben beim Drüberhovern, wenn aktiviert */
+.dropdown-content button:not([disabled]):hover {
+    background-color: #d6c66a;
+    border-color: #b8b14e;
+}
+
+/* Button-Farben beim Klicken, wenn aktiviert */
+.dropdown-content button:not([disabled]):active {
+    background-color: #eb930b !important;
+    border-color: #b57109 !important;
+}
+
+.table-container {
+    max-height: 300px; /* Ändern Sie dies entsprechend Ihrer Anforderung */
+    overflow-y: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}

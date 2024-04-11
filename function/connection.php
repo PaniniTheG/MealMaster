@@ -113,6 +113,18 @@ class DatabaseConnection
             return false;
         }
     }
+    function makeStatement($query, $array = null)
+    {
+        try
+        {
+            $stmt = $this->con->prepare($query);
+            $stmt->execute($array);
+            return $stmt;
+        } catch(Exception $e)
+        {
+            return $e;
+        }
+    }  
 
     function sendResetRequest($email, $pin){
 

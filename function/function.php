@@ -1,6 +1,29 @@
 <?php
 require_once('connection.php');
 
+global $ben_id;
+
+if(isset($_POST['accept']))
+{
+    $id=$_POST['id'];
+    activateUser($id);
+}
+if(isset($_POST['decline']))
+{
+    $id=$_POST['id'];
+    deactivateUser($id);
+}
+if(isset($_POST['admin']))
+{
+    $id=$_POST['id'];
+    premoteUserToAdmin($id);
+}
+
+function setUserId($id){
+    global $ben_id;
+    $ben_id=$id;
+}
+
 function getSite($site)
 {
     if(isset($_GET['site'])){
@@ -8,6 +31,27 @@ function getSite($site)
     } else{
         include_once('mealmaster_web/auth/scripts/'.$site.'.php');
     }
+}
+
+function deactivateUser($id){
+    $db = new DatabaseConnection();
+    $query="update benutzer set rolle_idrolle=0 where ben_id=?";
+    $array=array($id);
+    $db->makeStatement($query, $array);
+}
+
+function activateUser(){
+    $db = new DatabaseConnection();
+    $query="update benutzer set rolle_idrolle=2 where ben_id=?";
+    $array=array($id);
+    $db->makeStatement($query, $array);
+}
+
+function premoteUserToAdmin(){
+    $db = new DatabaseConnection();
+    $query="update benutzer set rolle_idrolle=1 where ben_id=?";
+    $array=array($id);
+    $db->makeStatement($query, $array);
 }
 
 function checkUserData(){
@@ -21,7 +65,18 @@ function checkUserData(){
                 echo '<p style="color:red;font-size:12px"><b>Benutzer wurde noch nicht durch einen Admin bestätigt!</b></p>';
             }
             else{
-                echo "accepted";
+                global $ben_id;
+
+                $query="select ben_id from benutzer where mail=?";
+                $array=array($email);
+                $stmt=$db->makeStatement($query, $array);
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                $id = $result['ben_id'];
+
+                $ben_id=$id;
+
+                header("Location: mealmaster_web/Account/scripts/Account.php?user_id=$ben_id");
+                exit;
             }
         } else {
             echo '<p style="color:red;font-size:12px"><b>Bitte geben Sie gültige Daten ein!</b></p>';
@@ -119,4 +174,253 @@ function confirmResetPassword($password, $pin){
     {
         $db->updatePassword($password, $pin);
     }
+}
+
+function makeTableForNewUser(){
+    $query="select ben_id as id,mail as EMail, vname as Vorname, nname as Nachname, class as Klasse from Benutzer where rolle_idrolle=3";
+    makeTableAcceptOrDeclineOrAdmin($query);
+}
+
+function makeTableForActiveUser(){
+    $query="select ben_id as id,mail as EMail, vname as Vorname, nname as Nachname, class as Klasse from Benutzer where rolle_idrolle=2 or rolle_idrolle=1";
+    makeTableDeleteOrAdmin($query);
+}
+
+function makeTableForDeactivatedUser(){
+    $query="select ben_id as id,mail as EMail, vname as Vorname, nname as Nachname, class as Klasse from Benutzer where rolle_idrolle=0";
+    makeTableAccept($query);
+}
+
+
+function makeTableAcceptOrDeclineOrAdmin($query, $array = null)
+{
+    $db = new DatabaseConnection();
+
+    $stmt = $db->makeStatement($query, $array);
+    if($stmt instanceof Exception)
+    {
+        echo $stmt->getCode().': '.$stmt->getMessage();
+    } 
+    else
+    {
+        if($stmt->rowCount() != 0){
+            //Tabelle erstellen
+            $meta = array();
+            // Spaltenüberschrifen dynamisch
+            echo '<div class="table-container">';
+            echo '<table class="table">';
+            echo '<thead>';
+            echo '<tr>';
+            for($i = 0; $i < $stmt->columnCount(); $i++)
+            {
+                $meta[] = $stmt->getColumnMeta($i);
+                echo '<th>'.$meta[$i]['name'].'</th>';
+            }
+            echo '<th>Optionen</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+            /*
+            Zugriff auf Arrayelement
+            FETCH_ASSOC:  $row['id']
+            FETCH_NUM:    $row[0]
+            */
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<tr>';
+                foreach($row as $r)
+                {
+                    echo '<td>'.$r.'</td>';
+                }
+                echo "<td>
+                        <form method='post' action=''>
+                            <input type='hidden' name='id' value='".$row['id']."'>
+                            <input type='submit' name='accept' value='accept'>
+                            <input type='submit' name='decline' value='decline'>
+                            <input type='submit' name='admin' value='admin'>
+                        </form>
+                </td>";
+                echo '</tr>';
+            }
+            echo '</tbody>';
+            echo '</table>';
+            echo '</div>';
+        }
+        else{
+            echo "<h1>Keine Datensätze gefunden</h1>";
+        }
+    }
+}
+
+function makeTableDeleteOrAdmin($query, $array = null)
+{
+    $db = new DatabaseConnection();
+
+    $stmt = $db->makeStatement($query, $array);
+    if($stmt instanceof Exception)
+    {
+        echo $stmt->getCode().': '.$stmt->getMessage();
+    } 
+    else
+    {
+        if($stmt->rowCount() != 0){
+            //Tabelle erstellen
+            $meta = array();
+            // Spaltenüberschrifen dynamisch
+            echo '<div class="table-container">';
+            echo '<table class="table">';
+            echo '<thead>';
+            echo '<tr>';
+            for($i = 0; $i < $stmt->columnCount(); $i++)
+            {
+                $meta[] = $stmt->getColumnMeta($i);
+                echo '<th>'.$meta[$i]['name'].'</th>';
+            }
+            echo '<th>Optionen</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+            /*
+            Zugriff auf Arrayelement
+            FETCH_ASSOC:  $row['id']
+            FETCH_NUM:    $row[0]
+            */
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<tr>';
+                foreach($row as $r)
+                {
+                    echo '<td>'.$r.'</td>';
+                }
+                echo "<td>
+                        <form method='post' action=''>
+                            <input type='hidden' name='id' value='".$row['id']."'>
+                            <input type='submit' name='decline' value='decline'>
+                            <input type='submit' name='admin' value='admin'>
+                        </form>
+                </td>";
+                echo '</tr>';
+            }
+            echo '</tbody>';
+            echo '</table>';
+            echo '</div>';
+        }
+        else{
+            echo "<h1>Keine Datensätze gefunden</h1>";
+        }
+    }
+}
+
+function makeTableAccept($query, $array = null)
+{
+    $db = new DatabaseConnection();
+
+    $stmt = $db->makeStatement($query, $array);
+    if($stmt instanceof Exception)
+    {
+        echo $stmt->getCode().': '.$stmt->getMessage();
+    } 
+    else
+    {
+        if($stmt->rowCount() != 0){
+            //Tabelle erstellen
+            $meta = array();
+            // Spaltenüberschrifen dynamisch
+            echo '<div class="table-container">';
+            echo '<table class="table">';
+            echo '<thead>';
+            echo '<tr>';
+            for($i = 0; $i < $stmt->columnCount(); $i++)
+            {
+                $meta[] = $stmt->getColumnMeta($i);
+                echo '<th>'.$meta[$i]['name'].'</th>';
+            }
+            echo '<th>Optionen</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+            /*
+            Zugriff auf Arrayelement
+            FETCH_ASSOC:  $row['id']
+            FETCH_NUM:    $row[0]
+            */
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<tr>';
+                foreach($row as $r)
+                {
+                    echo '<td>'.$r.'</td>';
+                }
+                echo "<td>
+                        <form method='post' action=''>
+                            <input type='hidden' name='id' value='".$row['id']."'>
+                            <input type='submit' name='accept' value='accept'>
+                        </form>
+                </td>";
+                echo '</tr>';
+            }
+            echo '</tbody>';
+            echo '</table>';
+            echo '</div>';
+        }
+        else{
+            echo "<h1>Keine Datensätze gefunden</h1>";
+        }
+    }
+}
+
+function getEmail(){
+    global $ben_id;
+
+    $db = new DatabaseConnection();
+
+    $query="select mail from benutzer where ben_id=?";
+    $array=array($ben_id);
+    $stmt=$db->makeStatement($query, $array);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $mail = $result['mail'];
+
+    return $mail;
+}
+
+function getFirstname(){
+    global $ben_id;
+
+    $db = new DatabaseConnection();
+
+    $query="select vname from benutzer where ben_id=?";
+    $array=array($ben_id);
+    $stmt=$db->makeStatement($query, $array);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $firstName = $result['vname'];
+
+    return $firstName;
+}
+
+function getLastname(){
+    global $ben_id;
+
+    $db = new DatabaseConnection();
+
+    $query="select nname from benutzer where ben_id=?";
+    $array=array($ben_id);
+    $stmt=$db->makeStatement($query, $array);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $lastName = $result['nname'];
+
+    return $lastName;
+}
+
+function getClass(){
+    global $ben_id;
+
+    $db = new DatabaseConnection();
+
+    $query="select class from benutzer where ben_id=?";
+    $array=array($ben_id);
+    $stmt=$db->makeStatement($query, $array);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $class = $result['class'];
+
+    return $class;
 }
