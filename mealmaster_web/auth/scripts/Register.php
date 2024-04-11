@@ -103,7 +103,7 @@
 
     function validateForm() {
       var password = document.getElementById("password").value;
-      var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+      var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{6,}$/;
 
       if (!passwordPattern.test(password)) {
         showPopup();
