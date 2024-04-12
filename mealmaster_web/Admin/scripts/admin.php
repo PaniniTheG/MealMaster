@@ -6,61 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerichte</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="mealmaster_web/Admin/style/adminS.css">
+    <link rel="stylesheet" href="mealmaster_web/Admin/style/adminS.css" type="text/css">
     <style>
 
     </style>
 </head>
 
 <body class="no-select">
-
-    <div class="woTag">
-        <label for="wochentag">Wähle einen Wochentag:</label>
-        <select id="wochentag">
-            <option value="Montag">Montag</option>
-            <option value="Dienstag">Dienstag</option>
-            <option value="Mittwoch">Mittwoch</option>
-            <option value="Donnerstag">Donnerstag</option>
-            <option value="Freitag">Freitag</option>
-
-        </select>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
                 <div class="sidebar">
-                <div class="esZeit">
-                    <select id="essenZeit">
-                    <option value="Montag">Mittagessen</option>
-                    <option value="Dienstag">Abendessen</option>
-                </select>
-                </div>
-                    <img src="mealmaster_web/images/Firmenlogo.png" class="img-fluid" alt="Responsive image" border="4">
-                    <input name="neuspeisen" type="text" class="essnneu" placeholder="Neues Essen"><button name="submit" class="hinzu">+</button>
+                    <div class="esZeit">
+                        <select id="essenZeit">
+                            <option value="Montag">Mittagessen</option>
+                            <option value="Dienstag">Abendessen</option>
+                        </select>
+                    </div>
+
                     <?php
-                       
-                    /*$gericht = array(
-
-                        'Apfelstrudel',
-                        'Bratwurst',
-                        'Currywurst',
-                        'Döner Kebab',
-                        'Dürüm'
-                    );*/
-
-                    //insertNewGericht();
-                    sort($gericht);
-                    $currentLetter = null;
-                    foreach ($gericht as $gerichte) {
-                        $firstLetter = strtoupper(substr($gerichte, 0, 1));
-                        if ($firstLetter !== $currentLetter) {
-                            $currentLetter = $firstLetter;
-                            echo "<h2>$currentLetter</h2>";
-                        }
-                        echo "<div class='gericht' draggable='true' ondragstart='drag(event)'>$gerichte</div>";
+                    if (isset($_POST['date'])) {
+                        $date = $_POST['date'];
+                    } else {
+                        $date = date('Y-m-d'); // Default to 7 days from now
                     }
                     ?>
-            </div>
+                    <script>
+                        document.getElementById('datePicker').addEventListener('change', function() {
+
+                            document.getElementById('dateForm').submit();
+
+                        });
+                    </script>
+                    <form id="dateForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                        <input type="date" name="date" id="datePicker" value="<?php echo $date; ?>" max="<?php echo date('Y-m-d', strtotime('+3 weeks')); ?>">
+                    </form>
+                    <!-- datepicker end -->
+                    <form action="" method="post">
+                        <input name="neuspeisen" type="text" class="essnneu" placeholder="Neues Essen"><button name="submit" class="hinzu">+</button>
+                    </form>
+
+                    <?php
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        $neuesEssen = $_POST['neuspeisen'];
+                        insertSpeise($neuesEssen);
+                    }
+
+                    ausgabeGericht();
+                    ?>
+                </div>
             </div>
             <div class="col-md-8">
                 <div placeholder="Mittagessen" id="drag-drop-field" class="drag-drop-field" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -118,7 +113,6 @@
             }
             alert("Das Menü für " + wochentag + " wurde gespeichert: " + JSON.stringify(menu));
         }
-        
     </script>
 </body>
 

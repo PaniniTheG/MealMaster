@@ -7,8 +7,8 @@ class DatabaseConnection
     {
         $server = 'localhost:3306';
         $user = 'root';
-        $pwd = 'root';
-        $schema = 'MealMasterV2';
+        $pwd = '';
+        $schema = 'mealmasterV2';
 
         try
         {
@@ -197,16 +197,47 @@ class DatabaseConnection
 
     function insertNewGericht($gericht)
     {
-        // if (isset($_POST["submit"])) 
-        // {
 
-        //     $gericht = $_POST["neuspeisen"]; 
-
-            $stmt = $this->con->prepare("INSERT INTO gericht VALUES('$gericht')");
-            $stmt->execute(["gericht" => $gericht]); 
-            //header('Location: index.php');
+        if ($gericht != null){
+            $stmt = $this->con->prepare("INSERT INTO gericht (gericht) VALUES (:gericht)");
+            $stmt->bindParam(':gericht', $gericht);
+            $stmt->execute();
 
         }
+        
+    }
+
+    function getGericht()
+    {    
+            $stmt = $this->con->prepare("SELECT gericht FROM gericht ORDER BY gericht");
+            $stmt->execute();
+            return $stmt;    
+
+    }
+
+    function insertNewMittag($gericht)
+    {
+            $stmt = $this->con->prepare("INSERT INTO gericht (gericht) VALUES (:gericht)");
+            $stmt->bindParam(':gericht', $gericht);
+            $stmt->execute();
+        
+    }
+
+    function insertNewAbend($date, $idgericht)
+    {
+
+            $stmt = $this->con->prepare("INSERT INTO abendessen (abendessenDate, gericht_idgericht) VALUES (:abendessenDate, :idgericht)");
+            $stmt->bindParam(':idgericht', $idgericht, ':abendessenDate', $date);
+            $stmt->execute();
+        
+    }
+
+    function getGerichtID($gericht)
+    {
+        $stmt = $this->con->prepare("SELECT idgericht FROM gericht");
+        // gerichtid;
+        // return $gerichtid;
+    }
 
 }
 

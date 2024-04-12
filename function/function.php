@@ -120,3 +120,29 @@ function confirmResetPassword($password, $pin){
         $db->updatePassword($password, $pin);
     }
 }
+
+function insertSpeise($gericht)
+{
+    $db = new DatabaseConnection();
+    $db->insertNewGericht($gericht);
+
+}
+
+function ausgabeGericht()
+{
+    $db = new DatabaseConnection();
+    $gt = $db->getGericht();
+
+    while ($row = $gt->fetch(PDO::FETCH_ASSOC)){
+        sort($row);
+        $currentLetter = null;
+        foreach ($row as $r) {
+            $firstLetter = strtoupper(substr($r, 0, 1));
+            if ($firstLetter !== $currentLetter) {
+                echo "<h2>$currentLetter</h2>";
+                $currentLetter = $firstLetter;
+            }
+            echo "<div class='gericht' draggable='true' ondragstart='drag(event)'>$r</div>";
+            }
+        }
+    }
