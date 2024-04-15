@@ -38,10 +38,10 @@ function isAdmin(){
 function logout(){
     if(isset($_POST['logout'])){
         unset($_SESSION['ben_id']);
-        global $ben_id;
-        $ben_id=0;
-        // header("Location: mealmaster_web/Account/scripts/Account.php"); zu startseite navigieren
+        header("Location: /index.php?site=LogIn");
 
+        global $ben_id;
+        $ben_id=null;
     }
 }
 
@@ -127,8 +127,12 @@ function checkUserData(){
                 $id = $result['ben_id'];
 
                 $ben_id=$id;
-
-                header("Location: mealmaster_web/Account/scripts/Account.php");
+                if(isAdmin()){
+                    header("Location: /mealmaster_web/Admin/scripts/admin.php");
+                }
+                else{
+                    header("Location: /mealmaster_web/Student/scripts/student.php"); //schüler seite
+                }
                 $_SESSION['ben_id']=$ben_id;
                 exit;
             }
@@ -245,6 +249,17 @@ function makeTableForDeactivatedUser(){
     makeTableAccept($query);
 }
 
+function linkSite(){
+    if (isset($_GET['essensplan'])) {
+        if(isAdmin()){
+            header("Location: /mealmaster_web/Admin/scripts/admin.php");
+        }
+        else{
+            header("Location: /mealmaster_web/Students/scripts/student.php"); //schüler seite
+        }
+    }
+}
+
 
 function makeTableAcceptOrDeclineOrAdmin($query, $array = null)
 {
@@ -290,7 +305,7 @@ function makeTableAcceptOrDeclineOrAdmin($query, $array = null)
                         <form method='post' action=''>
                             <input type='hidden' name='id' value='".$row['id']."'>
                             <input type='submit' name='accept' value='akzeptieren'>
-                            <input type='submit' name='decline' value='ablehenen'>
+                            <input type='submit' name='decline' value='ablehnen'>
                             <input type='submit' name='admin' value='admin'>
                         </form>
                 </td>";
@@ -349,7 +364,7 @@ function makeTableDeleteOrAdmin($query, $array = null)
                 echo "<td>
                         <form method='post' action=''>
                             <input type='hidden' name='id' value='".$row['id']."'>
-                            <input type='submit' name='decline' value='decline'>
+                            <input type='submit' name='decline' value='ablehnen'>
                             <input type='submit' name='admin' value='admin'>
                         </form>
                 </td>";
@@ -408,7 +423,7 @@ function makeTableAccept($query, $array = null)
                 echo "<td>
                         <form method='post' action=''>
                             <input type='hidden' name='id' value='".$row['id']."'>
-                            <input type='submit' name='accept' value='accept'>
+                            <input type='submit' name='accept' value='akzeptieren'>
                         </form>
                 </td>";
                 echo '</tr>';
@@ -477,4 +492,107 @@ function getClass(){
     $class = $result['class'];
 
     return $class;
+}
+function insertSpeise($gericht)
+{
+    $db = new DatabaseConnection();
+    $db->insertNewGericht($gericht);
+}
+ 
+function insertMittag($date, $idgericht)
+{
+    $db = new DatabaseConnection();
+    $db->insertNewMittag($date, $idgericht);
+}
+ 
+function insertAbend($date, $idgericht)
+{
+    $db = new DatabaseConnection();
+    $db->insertNewAbend($date, $idgericht);
+}
+ 
+function ausgabeGericht()
+{
+    $db = new DatabaseConnection();
+    $gt = $db->getGericht();
+ 
+    $currentLetter = null;
+
+    while ($row = $gt->fetch(PDO::FETCH_ASSOC)) {
+        sort($row);
+        foreach ($row as $r) {
+            $firstLetter = strtoupper(substr($r, 0, 1));
+            if ($firstLetter !== $currentLetter) {
+                $currentLetter = $firstLetter;
+
+                echo "<h2>$currentLetter</h2>";
+            }
+            echo "<div class='gericht' draggable='true' ondragstart='drag(event)'>$r</div>";
+        }
+    }
+}
+ 
+function getID($gerichte)
+{
+    $db = new DatabaseConnection();
+    $gt = $db->getGerichteID($gerichte);
+ 
+    return $gt;
+}
+ 
+function getMittagAnzahl()
+{
+    $db = new DatabaseConnection();
+    $gt = $db->getMittagAnmeldeAnz();
+}
+ 
+function getAbendAnzahl()
+{
+    $db = new DatabaseConnection();
+    $gt = $db->getAbendAnmeldeAnz();
+}
+ 
+function setGerichte()
+{
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['myArray'])) {
+        // Dekodiere den JSON-String aus dem myArray-Feld
+        $arrayString = $_POST['myArray'];
+        $myArray = json_decode($arrayString);
+     
+ 
+ 
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $arr=getId($myArray);
+ 
+            // Überprüfe, ob das Formular abgesendet wurde
+            if(isset($_POST['essenZeit']) && isset($_POST['datum'])) {
+                // Der Wert des ausgewählten Elements im <select>-Tag
+                $date=$_POST['datum'];
+                $essenZeit = $_POST['essenZeit'];
+       
+                // Jetzt kannst du den Wert verwenden, z.B.:
+                if ($essenZeit == "mittag") {
+                    foreach($arr as $id){
+                        $date = $_POST['datum'];
+                        $intId=intval($id);
+                        insertMittag($date, $intId);
+                    }
+                } elseif ($essenZeit == "abend") {
+                    foreach($arr as $id){
+                        $date = $_POST['datum'];
+                        $intId=intval($id);
+                        insertAbend($date, $intId);
+                    }
+                } else {
+                    echo "Ungültige Auswahl.";
+                }
+            }
+        }
+    }
+}
+
+function gotoCount(){
+    if(isset($_POST['showCount'])){
+        header("Location: /mealmaster_web/Count/scripts/count.php");
+    }
 }

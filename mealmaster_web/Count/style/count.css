@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+/* Globale Stile */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    padding: 20px;
+}
+
+.border {
+    border: 1px solid #ccc;
+}
+
+.rounded-5 {
+    border-radius: 5px;
+}
+
+.shadow {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.box-area {
+    max-width: 600px; /* Maximalbreite des Behälters */
+}
+
+.top-box {
+    background-color: #f0e79c; /* Hintergrundfarbe des oberen Abschnitts */
+    color: #333; /* Textfarbe */
+    padding: 20px;
+    text-align: center;
+}
+
+.bottom-box {
+    padding: 20px;
+}
+
+/* Styling für das Radiobutton-Formular */
+.form-check {
+    margin-bottom: 10px;
+}
+
+.form-check-input {
+    margin-right: 10px;
+}
+
+/* Styles für die Schaltflächen */
+.btn {
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Center the form horizontally */
+#dateForm {
+    display: flex;
+    justify-content: center;
+}
+
+.Überschrift {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    padding-top: 20px; /* Adjust as needed */
+    padding-bottom: 20px; /* Adjust as needed */
+}
+
+#dateForm {
+    margin-bottom: 20px; /* Add some bottom margin for spacing */
+}
+
+#datePicker {
+    padding: 8px; /* Add padding to the input */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 4px; /* Add border radius for rounded corners */
+    font-size: 16px; /* Set font size */
+}
+
+/* Style for when the date picker is focused */
+#datePicker:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #007bff; /* Change border color when focused */
+}
+
+
+.form-check-label {
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+.btn-outline-secondary {
+    background-color: transparent;
+    border: 1px solid #6c757d; /* Ändern Sie die Farbe des Rahmens nach Bedarf */
+    color: #6c757d; /* Textfarbe */
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff; /* Textfarbe ändern, wenn Mauszeiger über der Schaltfläche schwebt */
+}

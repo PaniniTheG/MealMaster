@@ -1,3 +1,6 @@
+<?php
+linkSite();
+?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -8,10 +11,10 @@
 <body>
 
 <div class="navbar">
-    <a href="#" class="logo"><img src="/mealmaster_web/images/Firmenlogo.png" alt="Firmenlogo"></a>
-    <a href="#">Essensplan</a>
+    <a class="logo"><img src="/mealmaster_web/images/Firmenlogo.png" alt="Firmenlogo"></a>
+    <a href="?essensplan=1">Essensplan</a>
     <div class="select-field">
-        <a href="#" class="account-icon"><img src="/mealmaster_web/images/account_icon.svg" alt="Account"></a>
+        <a href="/mealmaster_web/Account/scripts/Account.php" class="account-icon"><img src="/mealmaster_web/images/account_icon.svg" alt="Account"></a>
     </div>
 </div>
 

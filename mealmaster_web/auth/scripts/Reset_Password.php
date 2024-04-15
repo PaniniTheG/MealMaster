@@ -44,7 +44,7 @@
                          <input type="password" name="repeadPassword" class="form-control form-control-lg bg-light fs-6" placeholder="Passwort wiederholen" required>
                         </div>
                         <div class="input-group mb-3">
-                         <button class="btn btn-lg btn-primary w-100 fs-6" name="reset">Reset Passowrd</button>
+                         <button class="btn btn-lg btn-primary w-100 fs-6" name="reset">Passwort zurücksetzen</button>
                         </div>
                       </form>
                       <!--Reset Form End-->
