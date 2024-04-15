@@ -67,18 +67,23 @@
         </div>
     </div>
     <button name="menu" value="essenspeichern" id="save-button" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px;" onclick="saveMenu()">Speichern</button>
+
     <?php
 
     if (isset($_POST['menu']) && isset($_POST['mittag']) && isset($_POST['date'])) {
         $menuid = $_POST['gerichteinfügen'];
         $date = $_POST['date'];
-        
-        
+
+        insertMittag($menuid, $date);
+          
     } 
 
-    if (isset($_POST['menu']) && isset($_POST['abend'])) {
-        $menu = $_POST['gerichteinfügen'];
-        
+    if (isset($_POST['menu']) && isset($_POST['abend']) && isset($_POST['date'])) {
+        $menuid = $_POST['gerichteinfügen'];
+        $date = $_POST['date'];
+
+        insertAbend($menuid, $date);
+     
     } 
     ?> 
     <script>

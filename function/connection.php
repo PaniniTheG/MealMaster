@@ -239,6 +239,20 @@ class DatabaseConnection
         return $stmt;
     }
 
+    function getMittagAnmeldeAnz()
+    {
+        $stmt = $this->con->prepare("SELECT count(*) FROM abendessen");
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function getAbendAnmeldeAnz()
+    {
+        $stmt = $this->con->prepare("SELECT count(*) FROM mittagessen");
+        $stmt->execute();
+        return $stmt;
+    }
+
 }
 
 ?>

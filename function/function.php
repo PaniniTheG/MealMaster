@@ -166,3 +166,15 @@ function ausgabeGericht()
     $db = new DatabaseConnection();
     $gt = $db->getGerichtID();
  }   
+
+ function getMittagAnzahl()
+ {
+    $db = new DatabaseConnection();
+    $gt = $db->getMittagAnmeldeAnz();
+ }
+
+ function getAbendAnzahl()
+ {
+    $db = new DatabaseConnection();
+    $gt = $db->getAbendAnmeldeAnz();
+ }
