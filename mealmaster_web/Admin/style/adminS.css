@@ -119,6 +119,25 @@ body {
     width: 90%;
     margin-top: 5px;
 }
+
+.btn-primary{
+    background-color: #e6d97a;
+    border-color: #b8b14e;
+    border:none;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #d6c66a;
+    border-color: #b8b14e;
+}
+
+.btn-primary:active {
+    background-color: #eb930b !important;
+    border-color: #b57109 !important;
+}
+
 @media (max-width: 768px) {
     .sidebar {
         width: 100%;

@@ -70,7 +70,7 @@ include_once('../../../function/function.php');
             </form>
 
             <form method="post" action="">
-                <button type="submit" name="showCount"> Angemeldete Schüler anzeigen</button>
+                <button type="submit" name="showCount"class="btn-primary" style="position: fixed; bottom: 230px; right: 550px;"> Angemeldete Schüler anzeigen! </button>
             </form>
         </div>
     </div>
