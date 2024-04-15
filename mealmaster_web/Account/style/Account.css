@@ -2,6 +2,29 @@ body {
     background-color: #ececec;
 }
 
+.btn {
+    position: fixed !important;
+    bottom: 0 !important; 
+    right: 0 !important;
+    z-index: 999!important; /* Stelle sicher, dass der Button über anderen Inhalten liegt */
+    padding: 10px 20px !important; /* Passe das Padding nach Bedarf an */
+}
+
+.btn-primary{
+    background-color: #e6d97a;
+    border-color: #b8b14e;
+}
+
+.btn-primary:hover {
+    background-color: #d6c66a;
+    border-color: #b8b14e;
+}
+
+.btn-primary:active {
+    background-color: #eb930b !important;
+    border-color: #b57109 !important;
+}
+
 .box-container {
     width: 100%;
     height: 100%;

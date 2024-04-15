@@ -1,6 +1,8 @@
 <?php
 require_once('connection.php');
 
+session_start();
+
 global $ben_id;
 
 if(isset($_POST['accept']))
@@ -19,9 +21,60 @@ if(isset($_POST['admin']))
     premoteUserToAdmin($id);
 }
 
-function setUserId($id){
+
+function isAdmin(){
+    $db = new DatabaseConnection();
+    $query="select rolle_idrolle from Benutzer where ben_id=?";
     global $ben_id;
-    $ben_id=$id;
+    $array=array($ben_id);
+
+    $stmt = $db->makeStatement($query, $array);
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC); // Hier wird das Ergebnis aus dem Statement geholt
+    return ($result['rolle_idrolle'] == 1);
+
+}
+
+function logout(){
+    if(isset($_POST['logout'])){
+        unset($_SESSION['ben_id']);
+        global $ben_id;
+        $ben_id=0;
+        // header("Location: mealmaster_web/Account/scripts/Account.php"); zu startseite navigieren
+
+    }
+}
+
+function saveUserData(){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $email=$_POST['hidden_mail'];
+        $firstname=$_POST['hidden_firstname'];
+        $lastname=$_POST['hidden_lastname'];
+        $class=$_POST['hidden_class'];
+        if (!empty($email) || !empty($firstname) || !empty($lastname) || !empty($class)) {
+        global $ben_id;
+
+        $db = new DatabaseConnection();
+
+        $query="update benutzer set mail=?, vname=?, nname=?, class=? where ben_id=?";
+
+        $array=array();
+        array_push($array, $email);
+        array_push($array, $firstname);
+        array_push($array, $lastname);
+        array_push($array, $class);
+        array_push($array, $ben_id);
+
+        $db->makeStatement($query, $array);
+        }
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit(); 
+    }
+}
+
+function setUserId(){
+    global $ben_id;
+    $ben_id=$_SESSION['ben_id'];
 }
 
 function getSite($site)
@@ -40,14 +93,14 @@ function deactivateUser($id){
     $db->makeStatement($query, $array);
 }
 
-function activateUser(){
+function activateUser($id){
     $db = new DatabaseConnection();
     $query="update benutzer set rolle_idrolle=2 where ben_id=?";
     $array=array($id);
     $db->makeStatement($query, $array);
 }
 
-function premoteUserToAdmin(){
+function premoteUserToAdmin($id){
     $db = new DatabaseConnection();
     $query="update benutzer set rolle_idrolle=1 where ben_id=?";
     $array=array($id);
@@ -75,7 +128,8 @@ function checkUserData(){
 
                 $ben_id=$id;
 
-                header("Location: mealmaster_web/Account/scripts/Account.php?user_id=$ben_id");
+                header("Location: mealmaster_web/Account/scripts/Account.php");
+                $_SESSION['ben_id']=$ben_id;
                 exit;
             }
         } else {
@@ -208,7 +262,7 @@ function makeTableAcceptOrDeclineOrAdmin($query, $array = null)
             $meta = array();
             // Spaltenüberschrifen dynamisch
             echo '<div class="table-container">';
-            echo '<table class="table">';
+            echo '<table class="table table1">';
             echo '<thead>';
             echo '<tr>';
             for($i = 0; $i < $stmt->columnCount(); $i++)
@@ -235,8 +289,8 @@ function makeTableAcceptOrDeclineOrAdmin($query, $array = null)
                 echo "<td>
                         <form method='post' action=''>
                             <input type='hidden' name='id' value='".$row['id']."'>
-                            <input type='submit' name='accept' value='accept'>
-                            <input type='submit' name='decline' value='decline'>
+                            <input type='submit' name='accept' value='akzeptieren'>
+                            <input type='submit' name='decline' value='ablehenen'>
                             <input type='submit' name='admin' value='admin'>
                         </form>
                 </td>";
@@ -268,7 +322,7 @@ function makeTableDeleteOrAdmin($query, $array = null)
             $meta = array();
             // Spaltenüberschrifen dynamisch
             echo '<div class="table-container">';
-            echo '<table class="table">';
+            echo '<table class="table table2">';
             echo '<thead>';
             echo '<tr>';
             for($i = 0; $i < $stmt->columnCount(); $i++)
@@ -327,7 +381,7 @@ function makeTableAccept($query, $array = null)
             $meta = array();
             // Spaltenüberschrifen dynamisch
             echo '<div class="table-container">';
-            echo '<table class="table">';
+            echo '<table class="table table3">';
             echo '<thead>';
             echo '<tr>';
             for($i = 0; $i < $stmt->columnCount(); $i++)
