@@ -12,6 +12,7 @@ logout();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style/account.css">
+    <link rel="icon" href="/mealmaster_web/images/Firmenlogo.png" type="image/x-icon">
     <title>Konto</title>
     <form action="" method="post" id="hiddenForm">
         <input type="hidden" name="hidden_mail" id="hidden_mail">
@@ -124,7 +125,6 @@ logout();
             document.cookie = "dropdown_" + header.textContent + "=open";
         } else {
             if (header.contains(event.target)) {
-                dropdown.classList.remove('active');
                 // Remove dropdown state cookie
                 document.cookie = "dropdown_" + header.textContent + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             }
@@ -201,15 +201,34 @@ logout();
     }
 
     function saveChanges() {
-        var dropdownContent = document.querySelector('.dropdown.active .dropdown-content');
-        var inputs = dropdownContent.querySelectorAll('input');
-        var hiddenForm = document.getElementById('hiddenForm');
-        inputs.forEach(function(input) {
-            var hiddenInput = hiddenForm.querySelector('#hidden_' + input.placeholder.toLowerCase());
-            hiddenInput.value = input.value;
-        });
-        hiddenForm.submit();
-    }
+            var dropdownContent = document.querySelector('.dropdown.active .dropdown-content');
+            dropdownContent.classList.remove('edit-mode');
+            var inputs = dropdownContent.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                input.readOnly = true;
+            });
+            storeInitialFieldValues(inputs);
+            var saveButton = document.getElementById('saveButton');
+            saveButton.disabled = true; // Disable the save button after changes are saved
+            // document.addEventListener("DOMContentLoaded", function() {
+                var mail = document.getElementById('mail').value;
+                var firstname = document.getElementById('firstname').value;
+                var lastname = document.getElementById('lastname').value;
+                var school_class = document.getElementById('school_class').value;
+                if(mail !== '' && firstname !== '' && lastname !== '' && school_class !== ''){
+                document.getElementById('hidden_mail').value = mail;
+                document.getElementById('hidden_firstname').value = firstname;
+                document.getElementById('hidden_lastname').value = lastname;
+                document.getElementById('hidden_class').value = school_class;
+                }
+                else{
+                    alert("Bitte geben sie gültige Daten ein!")
+                }
+                document.getElementById("hiddenForm").submit();
+
+
+            // });
+        }
 
     // Suchfunktion für die Tabelle
     function searchTable() {

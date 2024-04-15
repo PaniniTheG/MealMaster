@@ -2,7 +2,7 @@
 <html lang="en" data-bs-theme="auto">
     <head>
     <script src="assets/js/color-modes.js">
-   
+    <link rel="icon" href="/mealmaster_web/images/Firmenlogo.png" type="image/x-icon">
     </script>
     </head>
     <body>
