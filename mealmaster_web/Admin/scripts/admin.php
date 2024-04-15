@@ -20,8 +20,8 @@
                 <div class="sidebar">
                     <div class="esZeit">
                         <select id="essenZeit">
-                            <option value="Montag">Mittagessen</option>
-                            <option value="Dienstag">Abendessen</option>
+                            <option name="mittag" value="Montag">Mittagessen</option>
+                            <option name="abend" value="Dienstag">Abendessen</option>
                         </select>
                     </div>
 
@@ -54,17 +54,33 @@
                     }
 
                     ausgabeGericht();
+
+
                     ?>
                 </div>
             </div>
             <div class="col-md-8">
-                <div placeholder="Mittagessen" id="drag-drop-field" class="drag-drop-field" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div name="gerichteinfügen" placeholder="Mittagessen" id="drag-drop-field" class="drag-drop-field" ondrop="drop(event)" ondragover="allowDrop(event)">
                     <p class="placeholder-text">Hier Gericht reinziehen</p>
                 </div>
             </div>
         </div>
     </div>
     <button name="menu" value="essenspeichern" id="save-button" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px;" onclick="saveMenu()">Speichern</button>
+    <?php
+
+    if (isset($_POST['menu']) && isset($_POST['mittag']) && isset($_POST['date'])) {
+        $menuid = $_POST['gerichteinfügen'];
+        $date = $_POST['date'];
+        
+        
+    } 
+
+    if (isset($_POST['menu']) && isset($_POST['abend'])) {
+        $menu = $_POST['gerichteinfügen'];
+        
+    } 
+    ?> 
     <script>
         var maxGerichte = 2;
 

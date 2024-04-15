@@ -128,6 +128,20 @@ function insertSpeise($gericht)
 
 }
 
+function insertMittag($date, $idgericht)
+{
+    $db = new DatabaseConnection();
+    $db->insertNewMittag($date, $idgericht);
+
+}
+
+function insertAbend($date, $idgericht)
+{
+    $db = new DatabaseConnection();
+    $db->insertNewAbend($date, $idgericht);
+
+}
+
 function ausgabeGericht()
 {
     $db = new DatabaseConnection();
@@ -146,3 +160,9 @@ function ausgabeGericht()
             }
         }
     }
+
+ function getID()
+ {
+    $db = new DatabaseConnection();
+    $gt = $db->getGerichtID();
+ }   

@@ -215,9 +215,9 @@ class DatabaseConnection
 
     }
 
-    function insertNewMittag($gericht)
+    function insertNewMittag($gericht, $idgericht)
     {
-            $stmt = $this->con->prepare("INSERT INTO gericht (gericht) VALUES (:gericht)");
+            $stmt = $this->con->prepare("INSERT INTO mittagessen (MittagessenDate, gericht_idgericht) VALUES (:MittagessenDate, :idgericht)");
             $stmt->bindParam(':gericht', $gericht);
             $stmt->execute();
         
@@ -226,17 +226,17 @@ class DatabaseConnection
     function insertNewAbend($date, $idgericht)
     {
 
-            $stmt = $this->con->prepare("INSERT INTO abendessen (abendessenDate, gericht_idgericht) VALUES (:abendessenDate, :idgericht)");
-            $stmt->bindParam(':idgericht', $idgericht, ':abendessenDate', $date);
+            $stmt = $this->con->prepare("INSERT INTO abendessen (AbendessenDate, gericht_idgericht) VALUES (:AbendessenDate, :idgericht)");
+            $stmt->bindParam(':idgericht', $idgericht, ':AbendessenDate', $date);
             $stmt->execute();
         
     }
 
-    function getGerichtID($gericht)
+    function getGerichtID()
     {
         $stmt = $this->con->prepare("SELECT idgericht FROM gericht");
-        // gerichtid;
-        // return $gerichtid;
+        $stmt->execute();
+        return $stmt;
     }
 
 }
